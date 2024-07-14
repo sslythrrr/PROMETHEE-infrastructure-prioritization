@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prioritas Pembangunan Struktur</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .container {
+            max-width: 800px;
+            margin-top: 50px;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mb-4">
+            <h1>Prioritas Pembangunan Infrastruktur</h1>
+            <h4>Metode Promethee</h4>
+            <p>by Tubagus Panji Anugrah</p>
+        </div>
+        <div class="card p-4">
+            <form id="alternativesForm" action="{{ url_for('recommendation') }}" method="post">
+                <div id="alternativesContainer">
+                    <div class="mb-3">
+                        <label for="alt1" class="form-label">Nama Alternatif 1:</label>
+                        <input type="text" class="form-control" id="alt1" name="alternatives[]" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="alt2" class="form-label">Nama Alternatif 2:</label>
+                        <input type="text" class="form-control" id="alt2" name="alternatives[]" required>
+                    </div>
+                </div>
+                <button type="button" id="addAlternative" class="btn btn-secondary mt-3">
+                    <i class="fas fa-plus"></i> Tambah Alternatif
+                </button>
+                <button type="submit" class="btn btn-primary mt-3">
+                    <i class="fas fa-arrow-right"></i> Lanjut
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let altCount = 2;
+            
+            $("#addAlternative").click(function() {
+                altCount++;
+                let newAlt = `
+                    <div class="mb-3">
+                        <label for="alt${altCount}" class="form-label">Nama Alternatif ${altCount}:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="alt${altCount}" name="alternatives[]" required>
+                            <button type="button" class="btn btn-danger removeAlt">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                $("#alternativesContainer").append(newAlt);
+            });
+
+            $(document).on("click", ".removeAlt", function() {
+                $(this).closest('.mb-3').remove();
+            });
+        });
+    </script>
+</body>
+</html>
