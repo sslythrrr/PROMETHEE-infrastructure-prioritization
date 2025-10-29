@@ -23,12 +23,10 @@ def calculate_promethee():
     for alt in alternatives:
         alt_data = []
         for criterion in criteria:
-            # Tambahkan pengecekan dan nilai default
             value = request.form.get(f"{alt}_{criterion}", "3")
             try:
                 alt_data.append(int(value))
             except ValueError:
-                # Jika konversi gagal, gunakan nilai default
                 alt_data.append(3)
         criteria_data.append(alt_data)
 

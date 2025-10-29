@@ -9,7 +9,6 @@ class Promethee:
         self.n_criteria = len(criteria)
 
     def calculate_preference(self, d):
-        # Using Usual Criterion function
         return 1 if d > 0 else 0
 
     def calculate_preference_indices(self, data):
@@ -31,11 +30,7 @@ class Promethee:
     def rank_alternatives(self, data):
         pi = self.calculate_preference_indices(data)
         leaving_flow, entering_flow, net_flow = self.calculate_flows(pi)
-        
-        # Create a list of tuples (alternative, net_flow)
         ranking = list(zip(self.alternatives, net_flow))
-        
-        # Sort the list based on net_flow in descending order
         ranking.sort(key=lambda x: x[1], reverse=True)
         
         return ranking
@@ -44,22 +39,11 @@ def normalize_data(data):
     return (data - np.min(data, axis=0)) / (np.max(data, axis=0) - np.min(data, axis=0))
 
 def promethee_ranking(alternatives, criteria_data):
-    # Normalize the data
     normalized_data = normalize_data(np.array(criteria_data))
-    
-    # Define criteria (assuming all criteria are to be maximized)
     criteria = ['Biaya', 'Waktu Penyelesaian', 'Tingkat Kebutuhan', 'Dampak Sosial', 'Frekuensi Penggunaan']
-    
-    # Define weights (assuming equal weights for simplicity)
     weights = [0.2, 0.2, 0.2, 0.2, 0.2]
-    
-    # Create Promethee object
     promethee = Promethee(alternatives, criteria, weights)
-    
-    # Calculate ranking
     ranking = promethee.rank_alternatives(normalized_data)
-    
-    # Calculate score percentages
     max_net_flow = max(abs(r[1]) for r in ranking)
     results = [
         {
